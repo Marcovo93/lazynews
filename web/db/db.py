@@ -12,8 +12,29 @@ def get_db():
         g.db.row_factory = sqlite3.row
         return g.db
 
-    def close_db(e=None):
+def close_db(e=None):
         db = g.pop('db', None)
 
         if db is not None:
             db.close()
+
+def init_db():
+    db = get_db()
+    with current_app.open_resource('schema.sql') as f:
+        db.executescript(f.read().decode('utf8'))
+
+@click.command('init-db')
+def init_db_command():
+    """Cancella i dati esistenti e crea nuove tabelle"""
+    init_db()
+    click.echo('Database inizializzato con successo')
+
+sqlite3.register_converter(
+    "timestamp", lambda v: datetime.fromisoformat(v.decode())
+)
+
+def init_app(app):
+    app.teardown_appcontext(close_db)
+    app.cli.add_command(init_db_command)
+
+
