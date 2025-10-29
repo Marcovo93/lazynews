@@ -1,6 +1,15 @@
 # web/main.py
+import functools
+from flask import Blueprint, flash, g, redirect, render_template, request, session, url_for
+from werkzeug.security import check_password_hash, generate_password_hash
+
+from auth.auth import bp
+from web.db.db import get_db
 import os
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect
+
+
+
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
@@ -23,7 +32,7 @@ def create_app(test_config=None):
     # importa e inizializza il modulo db QUI dentro, dopo aver creato app
     from db import db
     db.init_app(app)
-
+    app.register_blueprint(bp)
     # registra le route (puoi anche importarle da un altro file se preferisci)
     @app.route("/")
     def home():
@@ -36,6 +45,10 @@ def create_app(test_config=None):
     @app.route("/contatti")
     def contatti():
         return render_template("contatti.html", title="Lazy News - Contatti")
+
+    @app.route("/register")
+    def registrazione():
+        return render_template("register.html",)
 
     return app
 
