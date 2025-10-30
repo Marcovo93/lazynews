@@ -48,17 +48,17 @@ def login():
             'SELECT * FROM user WHERE username = ?', (username,)
         ).fetchone()
 
-    if user is None:
-        error = 'Username errato.'
-    elif not check_password_hash(user['password'], password):
-        error = 'Password errata'
+        if user is None:
+            error = 'Username errato.'
+        elif not check_password_hash(user['password'], password):
+            error = 'Password errata'
 
-        if error is None:
-            session.clear()
-            session['user_id'] = user['id']
-            return redirect(url_for('index'))
+            if error is None:
+                session.clear()
+                session['user_id'] = user['id']
+                return redirect(url_for('index'))
 
-        flash(error)
+            flash(error)
 
     return render_template('login.html')
 
