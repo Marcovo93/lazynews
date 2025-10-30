@@ -1,0 +1,17 @@
+{% extends 'base.html'%}
+
+{% block header %}
+    <h1>{% block title%}Chi siamo{% endblock%}</h1>
+{% endblock %}
+
+{% block content %}
+
+    <ul>
+        {% for m in ["Marco", "Fabio"] %}
+        <li>{{ m }}</li>
+        {% endfor %}
+    </ul>
+<p>due fratelli troppo pigri per leggere le notizie...<br>
+    Quindi ce le facciamo rIAssumere</p>
+
+{% endblock %}

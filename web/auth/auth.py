@@ -34,7 +34,7 @@ def register():
 
                 flash(error)
 
-    return render_template('auth/register.html') #('auth/register.html')
+    return render_template('register.html') #('auth/register.html')
 
 #decoratore per pagina di login
 @bp.route('/login', methods=('GET', 'POST'))
@@ -60,7 +60,7 @@ def login():
 
         flash(error)
 
-    return render_template('auth/login.html')
+    return render_template('login.html')
 
 #caricare utente loggato
 @bp.before_app_request

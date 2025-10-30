@@ -2,19 +2,23 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}{% endblock %} - Flaskr</title>
+    <title>
+        {% block title %}{% endblock %}
+    </title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <nav>
-        <h1>Flask</h1>
+        <h1>Lazy News</h1>
         <ul>
             {% if g.user %}
                 <li><span>{{g.user['username'] }}</span></li>
                 <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
             {% else %}
+                <li><a href="{{ url_for('home') }}">Home</a></li>
                 <li><a href="{{ url_for('auth.register') }}">Registrati</a></li>
                 <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+                <li><a href="{{ url_for('about') }}">Chi siamo</a></li>
             {% endif %}
         </ul>
     </nav>
