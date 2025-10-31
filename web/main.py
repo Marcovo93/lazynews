@@ -18,6 +18,13 @@ def create_app(test_config=None):
         db.init_db()
 
 
+    #if not os.path.exists(app.config['DATABASE']):
+    #    with app.app_context():
+    #        db.init_db()
+    #        print('Daatbase creato con successo')
+    #else:
+    #    print('Database già esistente...')
+
     if test_config is None:
         app.config.from_pyfile('config.py', silent=True)
     else:
