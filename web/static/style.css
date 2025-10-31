@@ -1,0 +1,27 @@
+body {
+    font-family: 'Helvetica', sans-serif;
+    background-color: #f6f6f6;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #333;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+}
+
+a {
+    color: #007bff;
+    text-decoratin; none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+p {
+    font-family: 'Helvetica', sans-serif;
+}

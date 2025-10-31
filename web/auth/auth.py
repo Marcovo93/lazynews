@@ -10,12 +10,15 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
     if request.method == 'POST':
+        email = request.form['email']
         username = request.form['username']
         password = request.form['password']
         db = get_db()
         error = None
 
-        if not username:
+        if not email:
+            error = 'Email richiesto'
+        elif not username:
             error = 'Username richiesto'
         elif not password:
             error = 'Password richiesta'
@@ -23,8 +26,8 @@ def register():
         if error is None:
             try:
                 db.execute(
-                    "INSERT INTO user (username, password) VALUES (?, ?)",
-                    (username, generate_password_hash(password)),
+                    'INSERT INTO users (email, username, password) VALUES (?, ?, ?)',
+                    (email, username, password),
                 )
                 db.commit()
             except db.IntegrityError:
@@ -45,20 +48,20 @@ def login():
         db = get_db()
         error = None
         user = db.execute(
-            'SELECT * FROM user WHERE username = ?', (username,)
+            'SELECT * FROM users WHERE username = ?', (username,)
         ).fetchone()
 
-    if user is None:
-        error = 'Username errato.'
-    elif not check_password_hash(user['password'], password):
-        error = 'Password errata'
+        if user is None:
+            error = 'Username errato.'
+        elif not check_password_hash(user['password'], password):
+            error = 'Password errata'
 
-        if error is None:
-            session.clear()
-            session['user_id'] = user['id']
-            return redirect(url_for('index'))
+            if error is None:
+                session.clear()
+                session['user_id'] = user['id']
+                return redirect(url_for('index'))
 
-        flash(error)
+            flash(error)
 
     return render_template('login.html')
 
@@ -88,3 +91,11 @@ def login_required(view):
         return view(**kwargs)
     return wrapped_view
 
+
+@bp.route('/sqlite')
+def select_table():
+    db = get_db()
+    table_sqlite = db.execute(
+        'SELECT * FROM users'
+    ).fetchall()
+    return render_template('sqlite.html', utenti=table_sqlite)

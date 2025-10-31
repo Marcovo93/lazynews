@@ -4,8 +4,9 @@ DROP TABLE IF EXISTS comments;
 
 CREATE TABLE users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    email TEXT NOT NULL,
     username TEXT UNIQUE NOT NULL,
-    password TEXT NOT NULL,
+    password TEXT NOT NULL
 );
 
 CREATE TABLE post (
@@ -14,7 +15,7 @@ CREATE TABLE post (
     created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     title TEXT NOT NULL,
     body TEXT NOT NULL,
-    FOREIGN KEY (author_id) REFERENCES user (id)
+    FOREIGN KEY (author_id) REFERENCES users (id)
 );
 
 
