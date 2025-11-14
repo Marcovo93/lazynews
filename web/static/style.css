@@ -25,3 +25,10 @@ a:hover {
 p {
     font-family: 'Helvetica', sans-serif;
 }
+
+.sidebar {
+    flex: 1;
+    background-color: #ddd;
+    padding: 20px;
+    border-radius: 10px;
+}

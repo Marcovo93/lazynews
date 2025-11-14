@@ -21,7 +21,7 @@ def create_app(test_config=None):
     #if not os.path.exists(app.config['DATABASE']):
     #    with app.app_context():
     #        db.init_db()
-    #        print('Daatbase creato con successo')
+    #        print('Database creato con successo')
     #else:
     #    print('Database già esistente...')
 
