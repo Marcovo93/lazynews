@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
         {% block title %}{% endblock %}
     </title>
@@ -14,11 +14,14 @@
         <ul>
             {% if g.user %}
                 <li><span>{{g.user['username'] }}</span></li>
+                <li><a href="{{ url_for('eventi') }}">Eventi</a></li>
+                <li><a href="{{ url_for('about') }}">Chi siamo</a></li>
                 <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
             {% else %}
                 <li><a href="{{ url_for('home') }}">Home</a></li>
                 <li><a href="{{ url_for('auth.register') }}">Registrati</a></li>
                 <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+                <li><a href="{{ url_for('eventi') }}">Eventi</a></li>
                 <li><a href="{{ url_for('about') }}">Chi siamo</a></li>
             {% endif %}
         </ul>
@@ -32,7 +35,6 @@
         {% for message in get_flashed_messages() %}
             <div class="flash">{{ message }}</div>
         {% endfor %}
-
         {% block content %}{% endblock %}
     </section>
 </body>

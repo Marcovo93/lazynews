@@ -3,6 +3,7 @@ from db import db
 import os
 from flask import Flask, render_template
 from blog import bpb
+from datetime import datetime
 
 
 def create_app(test_config=None):
@@ -45,15 +46,19 @@ def create_app(test_config=None):
 
     @app.route("/home")
     def home():
-        return render_template("home.html")
+        date_now = datetime.now()
+        date_time = date_now.strftime("%d-%m-%Y %H:%M:%S")
+        return render_template("home.html", time=date_time)
 
     @app.route("/eventi")
     def eventi():
-        return render_template("eventi.html", title="Lazy News - Eventi")
+        date_now = datetime.now()
+        date_time = date_now.strftime("%d-%m-%Y %H:%M:%S")
+        return render_template("eventi.html", time=date_time)
 
     @app.route("/contatti")
     def contatti():
-        return render_template("contatti.html", title="Lazy News - Contatti")
+        return render_template("contatti.html")
 
     @app.route("/about")
     def about():

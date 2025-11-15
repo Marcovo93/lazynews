@@ -1,23 +1,17 @@
-<!DOCTYPE html>
-<meta charset="UTF-8">
-    <style>
-            h1 {
-            font-size:100px;
-            text-align:center;
-            }
-        </style>
-    <title>{{ title }}</title>
-    <head>
-        <h1>Eventi</h1>
-        <p>Lista eventi disponibili:</p>
-        <ul>
-            {%for m in ["Napoli","Roma","Gran Canarie","Londra"] %}
-            <li>{{ m }}</li>
-            {% endfor %}
-        </ul>
-    </head>
-    <body>
-        <p>Contenuti</p>
-        <a href="/">Home</a><br>
-        <a href="/contatti">Contatti</a><br>
-    </body>
+{% extends 'base.html' %}
+
+{% block title %}Eventi{% endblock %}
+
+{% block header %}
+    <h1>Eventi</h1>
+{% endblock %}
+
+{% block content %}
+    <aside style="position: fixed; left: 0; top 0; width: 200px; height: 100%; background: #ddd; padding: 20px; text-align: center;">
+        <p>Orario</p>
+        <p>{{ time }}</p>
+    </aside>
+    <h2 class="center">Luogo eventi</h2>
+
+{% endblock %}
+
