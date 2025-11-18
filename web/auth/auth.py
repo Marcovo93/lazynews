@@ -39,6 +39,51 @@ def register():
 
     return render_template('register.html') #('auth/register.html')
 
+@bp.route('/register2', methods=('GET', 'POST'))
+def register2():
+    if request.method == 'POST':
+        nome = request.form['nome']
+        cognome = request.form['cognome']
+        data_nascita = request.form['data']
+        email = request.form['email']
+        password = request.form['password']
+        db = get_db()
+        error = None
+
+        if not nome:
+            error = 'Nome obbligatorio'
+        elif not cognome:
+            error = 'Cognome obbligatorio'
+        elif not data_nascita:
+            error = 'Data di nascita obbligatoria'
+        elif not email:
+            error = 'Email obbligatoria'
+        elif not password:
+            error = 'Password richiesta'
+
+        if error is None:
+            try:
+                db.execute(
+                    'INSERT INTO users2 (nome, cognome, data_nascita, email, password) VALUES (?, ?, ?, ?, ?)',
+                    (nome, cognome, data_nascita, email, password),
+                )
+                db.commit()
+            except db.IntegrityError:
+                error = f"Email {email} già registrata"
+            else: redirect(url_for("auth.login2"))
+
+    return render_template('register2.html')
+
+@bp.route("/login2")
+def login2():
+#    if request.method == 'POST':
+#        email = request.form['email']
+#        password = request.form['password']
+#        name = get_db().execute(
+#            'SELECT * FROM users2 WHERE email = ?', (email,)
+#        ).fetchone()
+    return render_template("login_2.html")
+
 #decoratore per pagina di login
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
@@ -51,10 +96,11 @@ def login():
             'SELECT * FROM users WHERE username = ?', (username,)
         ).fetchone()
 
+        print(user)
         if user is None:
             error = 'Username errato.'
-        elif not check_password_hash(user['password'], password):
-            error = 'Password errata'
+            #elif not check_password_hash(user['password'], password):
+            #error = 'Password errata'
 
             if error is None:
                 session.clear()

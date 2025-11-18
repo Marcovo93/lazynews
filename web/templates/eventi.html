@@ -2,16 +2,16 @@
 
 {% block title %}Eventi{% endblock %}
 
-{% block header %}
-    <h1>Eventi</h1>
-{% endblock %}
+{% block header %}<h1>Eventi</h1>{% endblock %}
 
 {% block content %}
-    <aside style="position: fixed; left: 0; top 0; width: 200px; height: 100%; background: #ddd; padding: 20px; text-align: center;">
-        <p>Orario</p>
-        <p>{{ time }}</p>
-    </aside>
+     <aside class="aside">
     <h2 class="center">Luogo eventi</h2>
-
+    <nav class="center">
+        <a href="{{ url_for('eventi_grancanarie') }}" style="font-size: 20px;">Gran Canarie</a>
+    </nav>
+    </aside>
+    <div class="grid-container">
+    </div>
 {% endblock %}
 

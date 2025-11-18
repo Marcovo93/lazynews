@@ -54,7 +54,7 @@ def create_app(test_config=None):
     def eventi():
         date_now = datetime.now()
         date_time = date_now.strftime("%d-%m-%Y %H:%M:%S")
-        return render_template("eventi.html", time=date_time)
+        return render_template("eventi.html", time=date_time, eventi=eventi)
 
     @app.route("/contatti")
     def contatti():
@@ -63,6 +63,10 @@ def create_app(test_config=None):
     @app.route("/about")
     def about():
         return render_template("about.html")
+
+    @app.route("/eventi/canarie")
+    def eventi_grancanarie():
+        return render_template("eventi_grancanarie.html")
 
     return app
 
