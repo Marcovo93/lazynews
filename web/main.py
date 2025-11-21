@@ -1,22 +1,35 @@
+import os
 from auth.auth import bp
 from db import db
-import os
 from flask import Flask, render_template
 from blog import bpb
 from datetime import datetime
 
 
 def create_app(test_config=None):
+    # Crea app Flask
     app = Flask(__name__, instance_relative_config=True)
 
+    # Configurazione di default
     app.config.from_mapping(
         SECRET_KEY='fox',
         DATABASE=os.path.join(app.instance_path, 'lazynews.sqlite'),
     )
     app.debug = True
 
-    with app.app_context():
-        db.init_db()
+    # Crea la cartella Instance/ se non esiste
+    try:
+        os.makedirs(app.instance_path, exist_ok=True)
+    except OSError:
+        pass
+
+    if test_config is None:
+        app.config.from_pyfile('config.py', silent=True)
+    else:
+        app.config.from_mapping(test_config)
+
+    # Inizializza l'estensione DB
+    db.init_app(app)
 
 
     #if not os.path.exists(app.config['DATABASE']):
@@ -26,35 +39,35 @@ def create_app(test_config=None):
     #else:
     #    print('Database già esistente...')
 
-    if test_config is None:
-        app.config.from_pyfile('config.py', silent=True)
-    else:
-        app.config.from_mapping(test_config)
 
-    try:
-        os.makedirs(app.instance_path, exist_ok=True)
-    except OSError:
-        pass
+
 
     # importa e inizializza il modulo db QUI dentro, dopo aver creato app
     #registra iil Blueprint --> app.register_blueprint(bp)
-    db.init_app(app)
     app.register_blueprint(bp)
     app.register_blueprint(bpb)
     app.add_url_rule('/', endpoint='index')
 
 
+# ------- Variabili Global ------- #
+
+    date_now = datetime.now()
+    date_time_g = date_now.strftime("%d-%m-%Y %H:%M:%S")
+    events_g = [
+    {"settore": "mercato azionario", "campo": "crypto", "url": "mercato_azionario"},
+    {"settore": "informatica", "campo": "sviluppo", "url": "informatica"},
+    {"settore": "politica", "campo": "sotto sviluppo", "url": "politica"},
+]
+
+# ----------------------------------- #
+
     @app.route("/home")
     def home():
-        date_now = datetime.now()
-        date_time = date_now.strftime("%d-%m-%Y %H:%M:%S")
-        return render_template("home.html", time=date_time)
+        return render_template("home.html", time=date_time_g)
 
-    @app.route("/eventi")
-    def eventi():
-        date_now = datetime.now()
-        date_time = date_now.strftime("%d-%m-%Y %H:%M:%S")
-        return render_template("eventi.html", time=date_time, eventi=eventi)
+    @app.route("/notizie")
+    def notizie():
+        return render_template("notizie.html", time=date_time_g, eventi=events_g)
 
     @app.route("/contatti")
     def contatti():
@@ -64,9 +77,17 @@ def create_app(test_config=None):
     def about():
         return render_template("about.html")
 
-    @app.route("/eventi/canarie")
-    def eventi_grancanarie():
-        return render_template("eventi_grancanarie.html")
+    @app.route("/eventi/mercato_azionario/crypto")
+    def mercato_azionario():
+        return render_template("mercato_azionario.html", eventi=events_g)
+
+    @app.route("/eventi/informatica/sviluppo")
+    def informatica():
+        return render_template("informatica.html", eventi=events_g)
+
+    @app.route("/eventi/politica/sotto_sviluppo")
+    def politica():
+        return render_template("politica.html", eventi=events_g)
 
     return app
 
