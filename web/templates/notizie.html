@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Notizie{% endblock %}
+
+{% block header %}<h1>Notizie</h1>{% endblock %}
+
+{% block content %}
+     <aside class="aside">
+    <h2 class="center">Settore</h2>
+    <nav class="center">
+        {% for eventi in eventi %}
+            <a href="{{ url_for( eventi.url ) }}" style="font-size: 20px;">{{ eventi.settore }}</a>
+            <br>
+            <br>
+        {% endfor %}
+    </nav>
+    </aside>
+    <div class="grid-container">
+    </div>
+{% endblock %}
+

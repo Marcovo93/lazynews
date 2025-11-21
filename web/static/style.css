@@ -92,9 +92,9 @@ input {
 }
 
 .image-events {
-    height: 500px;
-    width: 500px;
-    border-radius: 50%;
+    height: 525px;
+    width: 600px;
+    border-radius: 25%;
     transform: scale(1);
     transition: 0.5s;
     display: block;
@@ -107,6 +107,19 @@ input {
     border-radius: 20%;
     height: 800px;
     width: 1000px;
+}
+
+.image_owner {
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+.image_owner:hover {
+    height: 300px;
+    width: 300px;
+    border-radius: 50%;
 }
 
 .button {
