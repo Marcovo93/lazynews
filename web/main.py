@@ -91,6 +91,17 @@ def create_app(test_config=None):
     @app.route("/eventi/politica/sotto_sviluppo")
     def politica():
         return render_template("politica.html", eventi=events_g)
+    @app.route("/eventi/mercato_azionario/crypto")
+    def mercato_azionario():
+        return render_template("mercato_azionario.html", eventi=events_g)
+
+    @app.route("/eventi/informatica/sviluppo")
+    def informatica():
+        return render_template("informatica.html", eventi=events_g)
+
+    @app.route("/eventi/politica/sotto_sviluppo")
+    def politica():
+        return render_template("politica.html", eventi=events_g)
 
     return app
 
