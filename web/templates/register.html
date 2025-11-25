@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %}Registrati{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<br>
+    <form class="center" method="post">
+        <br>
+        <br>
+        <label for="email">Email</label>
+        <br>
+        <input type="email" name="email" id="email" placeholder="lazyNews@example.org" required>
+        <br>
+        <br>
+        <label for="username">Username</label>
+        <br>
+        <input name="username" id="username" placeholder="LazyBrods99" required>
+        <br>
+        <br>
+        <label for="password">Password</label>
+        <br>
+        <input type="password" name="password" id="password" placeholder="---" required>
+        <br>
+        <br>
+        <button type="submit" value="Crea account">Crea account</button>
+    </form>
+{% endblock %}

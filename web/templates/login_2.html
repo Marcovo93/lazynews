@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}test login{% endblock %}
+
+{% block header %}
+    <h1>Benvenuto {{ name }}</h1>
+{% endblock %}
+
+{% block content %}
+    {% if name == 'marco' or name == 'Marco' %}
+        <h1 style="text-align: center; padding: 20px;">Buongiorno {{ name }}</h1>
+        <aside><p>jo</p></aside>
+        {% else %}
+            <h1 style="text-align: center; padding: 20px;">Non sei il benvenuto straniero</h1>
+    {% endif %}
+{% endblock %}

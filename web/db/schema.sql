@@ -1,0 +1,29 @@
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS post;
+DROP TABLE IF EXISTS users2;
+
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    email TEXT NOT NULL,
+    username TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL
+);
+
+CREATE TABLE post (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    author_id INTEGER NOT NULL,
+    created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    title TEXT NOT NULL,
+    body TEXT NOT NULL,
+    FOREIGN KEY (author_id) REFERENCES users (id)
+);
+
+
+CREATE TABLE users2 (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL,
+    cognome TEXT NOT NULL,
+    data_nascita DATE NOT NULL,
+    email TEXT NOT NULL,
+    password TEXT NOT NULL
+);

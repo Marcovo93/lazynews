@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Who are we?{% endblock %}
+
+{% block header %}<h1>Who are we?</h1>{% endblock %}
+
+{% block content %}
+        <head>
+            {% for o in owners %}
+                <h1 style="text-align: center"><img src={{ o.image }} class="image_owner" title={{ o.name_owner }} alt={{ o.name_owner }}><br>{{ o.name_owner }} {{ o.surname_owner }}</h1>
+                <p style="text-align: center">Email - <strong>{{ o.email }}</strong></p>
+            {% endfor %}
+            <br>
+            <h4>Email - {{ reference }}</h4><br>
+        </head>
+        <body>
+            <p>Contenuti</p>
+            <a href="/">Home</a><br>
+            <a href="/eventi">Eventi</a><br>
+        </body>
+    </html>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}test register{% endblock %}
+
+{% block header %}<h1>Registrati</h1>{% endblock %}
+
+{% block content %}
+
+    <form method="post" class="center" style="padding: 20px;">
+        <input id="nome" type="nome" name="nome" placeholder="Inserisci il tuo Nome" required>
+        <br>
+        <br>
+        <input id="cognome" type="cognome" name="cognome" placeholder="Inserisci il tuo Cognome" required>
+        <br>
+        <br>
+        <input id="data" type="date" name="data" placeholder="Inserisci la tua data di nascita" required>
+        <br>
+        <br>
+        <input id="email" type="email" name="email" placeholder="esempio@tuamail.com" required>
+        <br>
+        <br>
+        <input id="password" type="password" name="password" placeholder="Crea una nuova password" required>
+        <br>
+        <br>
+        <button type="submit" value="conferma">Conferma!</button>
+    </form>
+
+{% endblock %}
