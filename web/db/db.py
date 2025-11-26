@@ -1,4 +1,4 @@
-import sqlite3 #libreria sqlite3 utile per piccole app ad uso proprio
+import sqlite3
 from datetime import datetime
 import click
 from flask import current_app, g

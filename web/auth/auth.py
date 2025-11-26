@@ -1,5 +1,15 @@
 import functools
-from flask import Blueprint, flash, g, redirect, render_template, request, session, url_for
+from flask import (
+    Blueprint,
+    flash,
+    g,
+    redirect,
+    render_template,
+    request,
+    session,
+    url_for
+)
+
 from werkzeug.security import check_password_hash, generate_password_hash
 from web.db.db import get_db
 
@@ -25,9 +35,10 @@ def register():
 
         if error is None:
             try:
+                hashed_password = generate_password_hash(password, method='pbkdf2')
                 db.execute(
                     'INSERT INTO users (email, username, password) VALUES (?, ?, ?)',
-                    (email, username, password),
+                    (email, username, hashed_password),
                 )
                 db.commit()
             except db.IntegrityError:
@@ -76,12 +87,12 @@ def register2():
 
 @bp.route("/login2")
 def login2():
-#    if request.method == 'POST':
-#        email = request.form['email']
-#        password = request.form['password']
-#        name = get_db().execute(
-#            'SELECT * FROM users2 WHERE email = ?', (email,)
-#        ).fetchone()
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        name = get_db().execute(
+            'SELECT * FROM users2 WHERE email = ?', (email,)
+        ).fetchone()
     return render_template("login_2.html")
 
 #decoratore per pagina di login
