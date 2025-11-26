@@ -32,12 +32,12 @@ def create_app(test_config=None):
     db.init_app(app)
 
 
-    #if not os.path.exists(app.config['DATABASE']):
-    #    with app.app_context():
-    #        db.init_db()
-    #        print('Database creato con successo')
-    #else:
-    #    print('Database già esistente...')
+    if not os.path.exists(app.config['DATABASE']):
+        with app.app_context():
+            db.init_db()
+            print('Database creato con successo')
+    else:
+        print('Database già esistente...')
 
 
 
