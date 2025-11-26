@@ -1,9 +1,0 @@
-{% extends 'base.html' %}
-
-{% block title %}{{ eventi[0].settore }}{% endblock %}
-
-{% block header %}<h1>{{ eventi[0].settore }}</h1>{% endblock %}
-
-{% block content %}
-    <img src="{{ url_for('static', filename='img/bit.jpg') }}" alt='bit' class="image-events" title="bit">
-{% endblock %}

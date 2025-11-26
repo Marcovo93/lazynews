@@ -27,13 +27,6 @@ p {
     font-family: 'Helvetica', sans-serif;
 }
 
-.sidebar {
-    flex: 1;
-    background-color: #f4f4f4;
-    padding: 20px;
-    border-radius: 10px;
-}
-
 button {
     background-color: #007bff;
     color: white;
@@ -53,6 +46,26 @@ button:hover {
 label {
     font-weight: bold;
 
+}
+
+input {
+    text-align: center;
+    font-weight: bold;
+    width: 200px;
+    height: 20px;
+}
+
+.img_footer {
+    width: 3%;
+    transition: 0.3s;
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto;
+}
+
+.img_footer:hover {
+    transform: scale(1.2);
+    transition: 0.3s;
 }
 
 .aside {
@@ -75,13 +88,6 @@ label {
     font-family: 'Helvetica', sans-serif;
     text-align: center;
     padding: 10px;
-}
-
-input {
-    text-align: center;
-    font-weight: bold;
-    width: 200px;
-    height: 20px;
 }
 
 .grid-container {
@@ -136,3 +142,37 @@ input {
     transform: scale(1.1);
     transform: opacity(50%);
 }
+
+
+.sidebar {
+    flex: 1;
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.old_box {
+    width: 300px;
+    height: 300px;
+    border-radius: 10%;
+    background-color: #f0f0f0;
+    padding: 20px;
+    flex: 2;
+    text-align: center;
+    align-items: center;
+    transition: 0.3s;
+}
+
+.news_box {
+    height: 300px;
+    width: 300px;
+    left: 50%;
+    top: 50%;
+    border-radius: 5%;
+}
+
+
+.old_box:hover {
+    background-color: #e0e0e0;
+}
+

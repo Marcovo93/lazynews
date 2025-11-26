@@ -9,7 +9,7 @@
     <h2 class="center">Settore</h2>
     <nav class="center">
         {% for eventi in eventi %}
-            <a href="{{ url_for( eventi.url ) }}" style="font-size: 20px;">{{ eventi.settore }}</a>
+            <a href="{{ url_for('events_dynamic', parametro=loop.index0) }}" style="font-size: 20px;">{{ eventi.settore }}</a>
             <br>
             <br>
         {% endfor %}

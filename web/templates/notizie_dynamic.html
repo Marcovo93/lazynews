@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ eventi.settore }} - {{ eventi.campo }}{% endblock %}
+
+{% block header %}<h1>{{ eventi.settore }}</h1>{% endblock %}
+
+{% block content %}
+
+    <div style="text-align: center;">
+        <h1>{{ cronaca.titolo }}</h1>
+        <p>{{ cronaca.corpo }}</p>
+    </div>
+{% endblock %}
+
