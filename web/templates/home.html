@@ -1,9 +1,20 @@
 {% extends 'base.html' %}
 
-{% block header %}
-    <h1>{% block title %}Notizie dal mondo{% endblock %}</h1>
-{% endblock %}
+{% block title %}Home{% endblock %}
 
-{% block content%}
+{% block header %}<h1>News</h1>{% endblock %}
 
+{% block content %}
+    {% for n in result %}
+    <a href={{ n.url }}>
+    <div class="news_box">
+        <h3>{{ n.title }}</h3>
+        <h4>{{ n.description }}</h4>
+        <img src={{ n.urlimg }}>
+        <p>{{ n.id }}</p>
+        <p>{{ n.content }}</p>
+        <br>
+    </div>
+    </a>
+    {% endfor %}
 {% endblock %}
