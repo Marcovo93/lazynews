@@ -19,10 +19,6 @@ a {
     text-decoration: none;
 }
 
-a:hover {
-    text-decoration: underline;
-}
-
 p {
     font-family: 'Helvetica', sans-serif;
 }
@@ -164,11 +160,31 @@ input {
 }
 
 .news_box {
-    height: 300px;
-    width: 300px;
+    width: auto;
+    height: auto;
     left: 50%;
     top: 50%;
-    border-radius: 5%;
+    padding: 30px;
+}
+
+.news_box img {
+    width: 50%;
+    transition: 0.3s;
+}
+
+.news_box:hover img {
+    transform: scale(1.1)
+}
+
+.news_box:hover a {
+    text-decoration: underline;
+}
+
+.news_box:hover {
+    background-color: #e0e0e0;
+    a {
+        text-decoration: none;
+    }
 }
 
 

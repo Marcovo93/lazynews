@@ -1,4 +1,4 @@
-import functools
+import functools, requests
 from flask import (
     Blueprint,
     flash,
@@ -7,7 +7,8 @@ from flask import (
     render_template,
     request,
     session,
-    url_for
+    url_for,
+    jsonify
 )
 
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -50,52 +51,95 @@ def register():
 
     return render_template('register.html') #('auth/register.html')
 
-@bp.route('/register2', methods=('GET', 'POST'))
-def register2():
-    if request.method == 'POST':
-        nome = request.form['nome']
-        cognome = request.form['cognome']
-        data_nascita = request.form['data']
-        email = request.form['email']
-        password = request.form['password']
-        db = get_db()
-        error = None
+    # ------- API route ------- #
+    # get JSON
+@bp.route("/api/users", methods=['GET'])
+def api_get_user():
+    url = "https://jsonplaceholder.typicode.com/users"
+    response = requests.get(url)
+    data = response.json()
+    filtered = []
 
-        if not nome:
-            error = 'Nome obbligatorio'
-        elif not cognome:
-            error = 'Cognome obbligatorio'
-        elif not data_nascita:
-            error = 'Data di nascita obbligatoria'
-        elif not email:
-            error = 'Email obbligatoria'
-        elif not password:
-            error = 'Password richiesta'
+    for user in data:
+        filtered.append({
+            "id": user["id"],
+            "username": user["username"],
+            "email": user["email"],
+            "name": user["name"],
+            "city": user["address"]["city"],
+            "street": user["address"]["street"],
+            "company": user["company"]["name"],
+            "company_description": user["company"]["bs"]
+        })
 
-        if error is None:
-            try:
-                db.execute(
-                    'INSERT INTO users2 (nome, cognome, data_nascita, email, password) VALUES (?, ?, ?, ?, ?)',
-                    (nome, cognome, data_nascita, email, password),
-                )
-                db.commit()
-            except db.IntegrityError:
-                error = f"Email {email} già registrata"
-            else: redirect(url_for("auth.login2"))
+    return jsonify(filtered), 200
 
-    return render_template('register2.html')
+@bp.route("/api/country")
+def api_get_country():
+    url = "https://restcountries.com/v3.1/name/italy"
+    response = requests.get(url)
+    data = response.json()
+    filtered = []
 
-@bp.route("/login2")
-def login2():
-    if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
-        name = get_db().execute(
-            'SELECT * FROM users2 WHERE email = ?', (email,)
-        ).fetchone()
-    return render_template("login_2.html")
+    for country in data:
+        filtered.append({
+            "country_code": country["altSpellings"][0],
+            "name_republic": country["altSpellings"][2],
+            "capital": country["capital"],
+            "car_side": country["car"]["side"],
+            "continents": country["continents"],
+            "currencies": country["currencies"]["EUR"]["name"],
+            "population": country["population"]
+        })
 
-#decoratore per pagina di login
+    return render_template("testAPI.html", filtered=filtered)
+    #API - 514e79afc1a24dc6aa19297d49f50bb4 - url - https://newsapi.org
+    #return jsonify(filtered), 200
+
+@bp.route("/news_test", methods=['GET'])
+def getnewsapi():
+    api_key = "514e79afc1a24dc6aa19297d49f50bb4"
+    url = f"https://newsapi.org/v2/top-headlines?language=en&apiKey={api_key}"
+    response = requests.get(url)
+    data = response.json()
+    filtered = data.get("articles", [])
+    result = []
+
+    for n in filtered:
+        result.append({
+            "author": n.get("author"),
+            "content": n.get("content"),
+            "description": n.get("description"),
+            "published": n.get("publishedAt"),
+            "id": n.get("source", {}).get("id"),
+            "name": n.get("name")
+        })
+    return render_template("notizie_dynamic.html", result=result) #return jsonify(result), 200
+
+@bp.route("/api2", methods=['GET'])
+def testapi():
+    url = "https://jsonplaceholder.typicode.com/users"
+    response = requests.get(url)
+    data = response.json()
+    filtered = []
+
+    for f in data:
+        filtered.append({
+            "address": f["address"]["city"]
+        })
+
+    return jsonify(filtered), 200
+
+
+    # put JSON
+@bp.route("/api/users", methods=['POST'])
+def api_add_users():
+    users = []
+    data = requests.get_json()
+    users.append(data)
+    return jsonify(data), 200
+        # ----------------------------------- #
+
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
     if request.method == 'POST':
