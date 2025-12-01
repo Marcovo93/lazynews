@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}test api{% endblock %}
+
+{% block content %}
+<aside class="aside">
+    <nav>
+    {% for c in filtered %}
+        <p>{{ c.country_code }}</p>
+        <p>{{ c.name_republic }}</p>
+    {% endfor %}
+    </nav>
+</aside>
+{% endblock %}
+

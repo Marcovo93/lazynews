@@ -1,7 +1,12 @@
-import os
+import os, requests
 from auth.auth import bp
 from db import db
-from flask import Flask, render_template
+from flask import (
+    Flask,
+    render_template,
+    request,
+    jsonify
+)
 from blog import bpb
 from datetime import datetime
 
@@ -51,6 +56,28 @@ def create_app(test_config=None):
 
 # ------- Variabili Global ------- #
 
+    # newsapi ----- #
+    api_key = "514e79afc1a24dc6aa19297d49f50bb4"
+    url = f"https://newsapi.org/v2/top-headlines?language=en&apiKey={api_key}"
+    response = requests.get(url)
+    data = response.json()
+    filtered = data.get("articles", [])
+    result = []
+
+    for n in filtered:
+        result.append({
+            "author": n.get("author"),
+            "content": n.get("content"),
+            "description": n.get("description"),
+            "published": n.get("publishedAt"),
+            "id": n.get("source", {}).get("id"),
+            "name": n.get("name"),
+            "title": n.get("title"),
+            "url": n.get("url"),
+            "urlimg": n.get("urlToImage")
+        })
+    # --------- #
+
     date_now = datetime.now()
     date_time_g = date_now.strftime("%d-%m-%Y %H:%M:%S")
     owners_g = [
@@ -70,9 +97,17 @@ def create_app(test_config=None):
     ]
 # ----------------------------------- #
 
+    # ------- API route ------- #
+
     @app.route("/home")
     def home():
-        return render_template("home.html", time=date_time_g, eventi=events_g)
+        return render_template("home.html", result=result)
+
+    # ----------------------------------- #
+
+    #@app.route("/home")
+    #def home():
+    #    return render_template("home.html", time=date_time_g, eventi=events_g)
 
     @app.route("/notizie")
     def notizie():
