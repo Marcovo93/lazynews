@@ -1,4 +1,4 @@
-import functools, requests
+import functools, requests, os
 from flask import (
     Blueprint,
     flash,
@@ -53,12 +53,43 @@ def register():
 
     # ------- API route ------- #
     # get JSON
-@bp.route("/api/users", methods=['GET'])
+
+# Users management APIs
+# POST /api/users/update - download users and update DB - return { total_users: X }, 200
+@bp.route("/api/users/update", methods=['POST'])
+def download_update_users():
+    url = "https://jsonplaceholder.typicode.com/users"
+    response = requests.get(url)
+    data = response.json()
+    db = get_db()
+
+    for users in data:
+        db.execute(
+            'INSERT INTO api_news (username, email, name, city, street, company, company_description) VALUES (?, ?, ?, ?, ?, ?, ?)',
+        (users["username"], users["email"], users["name"], users["address"]["city"], users["address"]["street"], users["company"]["name"], users["company"]["bs"],)
+        )
+    db.commit()
+    return jsonify(data), 200
+
+
+
+# GET  /api/users - return all users info, 200
+# GET  /api/users/<id> - return user's info, 200
+# POST /api/users - params: name, etc - return user's info, 201
+# PUT  /api/users/<id> - udpate user's info - return new user's info, 200
+# DELETE /api/users/<id> - delete user - return empty body, 200
+
+#@bp.route("/api/users/<id>", methods=['GET'])
+#def api_get_user_by_id(id):
+#    pass
+
+@bp.route("/api/users", methods=['GET', 'POST'])
 def api_get_user():
     url = "https://jsonplaceholder.typicode.com/users"
     response = requests.get(url)
     data = response.json()
     filtered = []
+    db = get_db()
 
     for user in data:
         filtered.append({
@@ -67,12 +98,20 @@ def api_get_user():
             "email": user["email"],
             "name": user["name"],
             "city": user["address"]["city"],
-            "street": user["address"]["street"],
+            "streetp": user["address"]["street"],
             "company": user["company"]["name"],
             "company_description": user["company"]["bs"]
         })
+        db.execute(
+            'INSERT INTO api_news (username, email, name, city, street, company, company_description) VALUES (?, ?, ?, ?, ?, ?, ?)',
+            (user["username"], user["email"], user["name"], user["address"]["city"], user["address"]["street"], user["company"]["name"], user["company"]["bs"],)
+            )
+        db.commit()
 
-    return jsonify(filtered), 200
+    if request.method == 'GET':
+        return render_template("/home")
+    else:
+        return jsonify(filtered), 200
 
 @bp.route("/api/country")
 def api_get_country():
@@ -131,13 +170,13 @@ def testapi():
     return jsonify(filtered), 200
 
 
-    # put JSON
-@bp.route("/api/users", methods=['POST'])
-def api_add_users():
-    users = []
-    data = requests.get_json()
-    users.append(data)
-    return jsonify(data), 200
+    # post JSON
+#@bp.route("/api/users-jo", methods=['POST'])
+#def api_add_users():
+#    users = []
+#    data = requests.get_json()
+#    users.append(data)
+#    return jsonify(data), 200
         # ----------------------------------- #
 
 @bp.route('/login', methods=('GET', 'POST'))
