@@ -1,7 +1,7 @@
 from flask import Blueprint, flash, g, redirect, render_template, request, url_for
 from werkzeug.exceptions import abort
-from db.db import get_db
-from auth.auth import login_required
+from web.db.db import get_db
+from web.auth.auth import login_required
 
 bpb = Blueprint('blog', __name__)
 

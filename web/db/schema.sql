@@ -19,11 +19,13 @@ CREATE TABLE post (
 );
 
 
-CREATE TABLE users2 (
+CREATE TABLE api_news (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nome TEXT NOT NULL,
-    cognome TEXT NOT NULL,
-    data_nascita DATE NOT NULL,
+    username TEXT NOT NULL,
     email TEXT NOT NULL,
-    password TEXT NOT NULL
+    name TEXT NOT NULL,
+    city TEXT NOT NULL,
+    street TEXT NOT NULL,
+    company TEXT NOT NULL,
+    company_description TEXT NOT NULL
 );

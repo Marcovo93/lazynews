@@ -1,13 +1,13 @@
 import os, requests
-from auth.auth import bp
-from db import db
+from web.auth.auth import bp
+from web.db import db
 from flask import (
     Flask,
     render_template,
     request,
     jsonify
 )
-from blog import bpb
+from web.blog import bpb
 from datetime import datetime
 
 
