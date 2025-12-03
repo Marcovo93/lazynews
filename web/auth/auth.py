@@ -62,25 +62,40 @@ def download_update_users():
     response = requests.get(url)
     data = response.json()
     db = get_db()
-    righe_aggiunte = 0
+    row_count = 0
 
     for users in data:
         db.execute(
             'INSERT INTO api_news (username, email, name, city, street, company, company_description) VALUES (?, ?, ?, ?, ?, ?, ?)',
         (users["username"], users["email"], users["name"], users["address"]["city"], users["address"]["street"], users["company"]["name"], users["company"]["bs"],)
         )
-        righe_aggiunte += 1
+        row_count += 1
     db.commit()
 
     response_data = {
-        "message": f"Insert completed. Total row {righe_aggiunte}",
+        "message": f"Insert completed. Total row {row_count}",
         "status": "success"
     }
-    return jsonify(data, response_data), 200
+    return jsonify(data, response_data), 201
 
 
 
 # GET  /api/users - return all users info, 200
+@bp.route("/api/users", methods=['GET'])
+def return_all_users():
+    db = get_db()
+    users = db.execute('SELECT * FROM api_news').fetchall()
+    users_list = [dict(row) for row in users]
+    count_users = len(users)
+
+    if not users:
+        return "message:" f" No users found", 404
+
+    return jsonify(users_list,
+                   "status:" f" ok",
+                   "message:" f" Number of users {count_users}"
+                   ), 200
+
 # GET  /api/users/<id> - return user's info, 200
 # POST /api/users - params: name, etc - return user's info, 201
 # PUT  /api/users/<id> - udpate user's info - return new user's info, 200
@@ -89,36 +104,6 @@ def download_update_users():
 #@bp.route("/api/users/<id>", methods=['GET'])
 #def api_get_user_by_id(id):
 #    pass
-
-@bp.route("/api/users", methods=['GET', 'POST'])
-def api_get_user():
-    url = "https://jsonplaceholder.typicode.com/users"
-    response = requests.get(url)
-    data = response.json()
-    filtered = []
-    db = get_db()
-
-    for user in data:
-        filtered.append({
-            "id": user["id"],
-            "username": user["username"],
-            "email": user["email"],
-            "name": user["name"],
-            "city": user["address"]["city"],
-            "streetp": user["address"]["street"],
-            "company": user["company"]["name"],
-            "company_description": user["company"]["bs"]
-        })
-        db.execute(
-            'INSERT INTO api_news (username, email, name, city, street, company, company_description) VALUES (?, ?, ?, ?, ?, ?, ?)',
-            (user["username"], user["email"], user["name"], user["address"]["city"], user["address"]["street"], user["company"]["name"], user["company"]["bs"],)
-            )
-        db.commit()
-
-    if request.method == 'GET':
-        return render_template("/home")
-    else:
-        return jsonify(filtered), 200
 
 @bp.route("/api/country")
 def api_get_country():
