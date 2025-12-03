@@ -62,14 +62,21 @@ def download_update_users():
     response = requests.get(url)
     data = response.json()
     db = get_db()
+    righe_aggiunte = 0
 
     for users in data:
         db.execute(
             'INSERT INTO api_news (username, email, name, city, street, company, company_description) VALUES (?, ?, ?, ?, ?, ?, ?)',
         (users["username"], users["email"], users["name"], users["address"]["city"], users["address"]["street"], users["company"]["name"], users["company"]["bs"],)
         )
+        righe_aggiunte += 1
     db.commit()
-    return jsonify(data), 200
+
+    response_data = {
+        "message": f"Insert completed. Total row {righe_aggiunte}",
+        "status": "success"
+    }
+    return jsonify(data, response_data), 200
 
 
 
