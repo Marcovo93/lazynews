@@ -84,19 +84,6 @@ def create_app(test_config=None):
         {"name_owner": "Marco", "surname_owner": "Volpe", "email": "MarcoV@Lazynews.com", "image": "static/img/dev.jpg"},
         {"name_owner": "Fabio", "surname_owner": "Volpe", "email": "FabioV@Lazynews.com", "image": "static/img/dev.jpg"}
     ]
-    events_g = [
-        {"settore": "Mercato azionario", "campo": "crypto", "url": "mercato_azionario"},
-        {"settore": "Informatica", "campo": "sviluppo", "url": "informatica"},
-        {"settore": "Politica", "campo": "sotto sviluppo", "url": "politica"},
-    ]
-
-    cronaca_g = [
-        {"titolo": "Bitcoin supera nuovamente quota 100.000$ dopo una settimana volatile", "corpo": "Il prezzo di Bitcoin è tornato sopra la soglia psicologica dei 100k grazie a un incremento degli acquisti istituzionali. Gli analisti vedono segnali positivi, ma rimane alta la volatilità nel breve periodo."},
-        {"titolo": "Apple rilascia aggiornamento di sicurezza urgente per macOS", "corpo": "Apple ha pubblicato una patch che corregge una vulnerabilità zero-day individuata da ricercatori indipendenti. L’azienda invita tutti gli utenti ad aggiornare immediatamente per evitare possibili exploit da parte di malware."},
-        {"titolo": "Governo approva nuovo piano per il lavoro giovanile", "corpo": "Il Consiglio dei ministri ha varato un pacchetto di incentivi destinato alle imprese che assumono under 30 con contratti stabili. Le misure includono sgravi contributivi per 24 mesi e un fondo dedicato alla formazione digitale."}
-    ]
-# ----------------------------------- #
-
     # ------- API route ------- #
 
     @app.route("/home")
@@ -104,14 +91,6 @@ def create_app(test_config=None):
         return render_template("home.html", result=result)
 
     # ----------------------------------- #
-
-    #@app.route("/home")
-    #def home():
-    #    return render_template("home.html", time=date_time_g, eventi=events_g)
-
-    @app.route("/notizie")
-    def notizie():
-        return render_template("notizie.html", time=date_time_g, eventi=events_g)
 
     @app.route("/about")
     def about():

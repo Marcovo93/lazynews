@@ -89,17 +89,64 @@ def return_all_users():
     count_users = len(users)
 
     if not users:
-        return "message:" f" No users found", 404
+        return jsonify("message:" " No users found"), 404
 
     return jsonify(users_list,
-                   "status:" f" ok",
+                   "status:" " ok",
                    "message:" f" Number of users {count_users}"
                    ), 200
 
 # GET  /api/users/<id> - return user's info, 200
+@bp.route("/api/users/<int:id>", methods=['GET'])
+def return_id_users_info(id):
+    db = get_db()
+    select = db.execute('SELECT * FROM api_news WHERE id = ?', (id,))
+    user_info = select.fetchone()
+
+    if user_info is None:
+        return jsonify("error: " "user not found"), 404
+
+    user_data = dict(user_info)
+
+    return jsonify(user_data), 200
+
 # POST /api/users - params: name, etc - return user's info, 201
+
+
 # PUT  /api/users/<id> - udpate user's info - return new user's info, 200
+@bp.route("/api/user/<int:id>", methods=['PUT'])
+def update_user(id):
+    db = get_db()
+    put = {
+        "username": "marcovo93",
+        "email": "marcovolpe93@gmail.com",
+    }
+
+    db.execute(f'UPDATE api_news SET username = ?, email = ? WHERE id = {id}',
+    (put["username"], put["email"])
+    )
+    db.commit()
+    select = db.execute(f'SELECT * FROM api_news WHERE id = {id}',)
+    user_info = select.fetchone()
+    user_list = dict(user_info)
+
+    response = {
+        "status": "ok",
+        "message": "put completed"
+    }
+
+    return jsonify(response, user_list), 200
+
+
 # DELETE /api/users/<id> - delete user - return empty body, 200
+@bp.route("/api/users/<int:id>", methods=['DELETE'])
+def delete_user(id):
+    db = get_db()
+    db.execute(f'DELETE FROM api_news WHERE id = {id}',)
+    db.commit()
+
+    return "", 204
+
 
 #@bp.route("/api/users/<id>", methods=['GET'])
 #def api_get_user_by_id(id):
@@ -124,8 +171,6 @@ def api_get_country():
         })
 
     return render_template("testAPI.html", filtered=filtered)
-    #API - 514e79afc1a24dc6aa19297d49f50bb4 - url - https://newsapi.org
-    #return jsonify(filtered), 200
 
 @bp.route("/news_test", methods=['GET'])
 def getnewsapi():
